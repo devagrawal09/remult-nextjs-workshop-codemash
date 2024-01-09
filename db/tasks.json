@@ -2,14 +2,14 @@
   {
     "id": "ewunwqmwzuydicpy8tkdhfn9",
     "title": "Drive to Sandusky",
-    "completed": false,
+    "completed": true,
     "createdAt": "2024-01-09T21:43:51.101Z",
     "userId": "user_2ajYFpdAovtyeWMWB1XSUFh3pWe"
   },
   {
     "id": "fphk0ro2ggo819oh0d7gf06k",
     "title": "Jump into the pool",
-    "completed": false,
+    "completed": true,
     "createdAt": "2024-01-09T21:43:57.009Z",
     "userId": "user_2ajYFpdAovtyeWMWB1XSUFh3pWe"
   },
@@ -30,7 +30,7 @@
   {
     "id": "r73ndant2d3eg5habl3rne06",
     "title": "Eat Deep Dish Pizza",
-    "completed": false,
+    "completed": true,
     "createdAt": "2024-01-09T21:45:02.639Z",
     "userId": "user_2ajYFpdAovtyeWMWB1XSUFh3pWe"
   }

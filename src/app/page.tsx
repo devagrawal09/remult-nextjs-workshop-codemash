@@ -14,6 +14,7 @@ export default function TodosPage() {
   const { userId } = useAuth()
   const [tasks, setTasks] = useState<Task[]>([])
   const [newTaskTitle, setNewTaskTitle] = useState("")
+  const [hideCompleted, setHideCompleted] = useState(false)
 
   useEffect(() => {
     // remult.apiClient.subscriptionClient = new AblySubscriptionClient(
@@ -25,11 +26,11 @@ export default function TodosPage() {
     return taskRepo
       .liveQuery({
         limit: 20,
-        orderBy: { createdAt: "asc" }
-        // where: { completed: true },
+        orderBy: { createdAt: "asc" },
+        where: hideCompleted ? { completed: false } : undefined
       })
       .subscribe((info) => setTasks(info.applyChanges))
-  }, [userId])
+  }, [hideCompleted, userId])
 
   const addTask = async (e: FormEvent) => {
     e.preventDefault()
@@ -67,6 +68,9 @@ export default function TodosPage() {
           />
         ))}
         <div>
+          <button onClick={() => setHideCompleted((v) => !v)}>
+            {hideCompleted ? `Show Completed` : `Hide Completed`}
+          </button>
           <button onClick={() => setAllCompleted(true)}>
             Set All Completed
           </button>
