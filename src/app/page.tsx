@@ -8,7 +8,7 @@ export default function TodosPage() {
   const [newTaskTitle, setNewTaskTitle] = useState("")
   const [hideCompleted, setHideCompleted] = useState(false)
 
-  useEffect(() => {
+  const fetchTasks = () => {
     setTasks([
       {
         title: `Clone the repository`,
@@ -31,7 +31,7 @@ export default function TodosPage() {
         id: `4`
       }
     ])
-  }, [])
+  }
 
   const addTask = async (e: FormEvent) => {
     e.preventDefault()
@@ -43,6 +43,8 @@ export default function TodosPage() {
   }
 
   const setAllCompleted = async (completed: boolean) => {}
+
+  useEffect(() => fetchTasks(), [])
 
   return (
     <div>
@@ -57,7 +59,7 @@ export default function TodosPage() {
           <button>Add</button>
         </form>
         {tasks.map((task) => (
-          <TodoComponent key={task.id} task={task} />
+          <TodoComponent key={task.id} task={task} fetchTasks={fetchTasks} />
         ))}
         <div>
           <button onClick={() => setHideCompleted((v) => !v)}>
@@ -75,7 +77,13 @@ export default function TodosPage() {
   )
 }
 
-function TodoComponent({ task }: { task: Task }) {
+function TodoComponent({
+  task,
+  fetchTasks
+}: {
+  task: Task
+  fetchTasks: () => any
+}) {
   const [title, setTitle] = useState(task.title)
 
   const toggleCompleted = async () => {
