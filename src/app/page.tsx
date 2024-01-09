@@ -115,7 +115,7 @@ function TodoComponent({
         onChange={toggleCompleted}
       />
       <input value={title} onChange={(e) => setTitle(e.target.value)} />
-      <button onClick={saveTask}>Save</button>
+      {title !== task.title ? <button onClick={saveTask}>Save</button> : null}
       <button onClick={deleteTask}>Delete</button>
     </div>
   )
