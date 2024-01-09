@@ -7,3 +7,5 @@ export class Task {
 
   createdAt?: Date
 }
+
+export class TasksController {}
