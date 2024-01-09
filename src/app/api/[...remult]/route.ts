@@ -14,14 +14,16 @@ const dataProvider = createPostgresDataProvider({
 const api = remultNextApp({
   entities: [Task],
   controllers: [TasksController],
+
   getUser: async () => {
     const { userId } = auth()
     if (userId) return { id: userId }
   },
+
+  dataProvider,
   subscriptionServer: new AblySubscriptionServer(
     new Rest(process.env["ABLY_API_KEY"]!)
   ),
-  dataProvider,
   liveQueryStorage: new DataProviderLiveQueryStorage(dataProvider)
 })
 

@@ -1,7 +1,15 @@
 import "./globals.css"
 import type { Metadata } from "next"
 import { Inter } from "next/font/google"
-import { ClerkProvider, UserButton, currentUser } from "@clerk/nextjs"
+import {
+  ClerkProvider,
+  MultisessionAppSupport,
+  SignInButton,
+  SignedIn,
+  SignedOut,
+  UserButton,
+  currentUser
+} from "@clerk/nextjs"
 
 const inter = Inter({ subsets: ["latin"] })
 
@@ -19,12 +27,22 @@ export default async function RootLayout({
 
   return (
     <ClerkProvider>
-      <html lang="en">
-        <body className={inter.className}>
-          <span>Hello, {user?.firstName || `Stranger`}</span> <UserButton />
-          {children}
-        </body>
-      </html>
+      <MultisessionAppSupport>
+        <html lang="en">
+          <body className={inter.className}>
+            <header>
+              <span>Hello, {user?.firstName || `Stranger`}</span>
+              <SignedIn>
+                <UserButton afterSignOutUrl="/" />
+              </SignedIn>
+              <SignedOut>
+                <SignInButton />
+              </SignedOut>
+            </header>
+            {children}
+          </body>
+        </html>
+      </MultisessionAppSupport>
     </ClerkProvider>
   )
 }

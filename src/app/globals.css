@@ -7,6 +7,15 @@ body {
   margin: 0;
 }
 
+header {
+  display: flex;
+  padding: 5px 10px;
+}
+
+header span {
+  flex-grow: 1;
+}
+
 h1 {
   color: #ef4444;
   font-style: italic;

@@ -6,10 +6,12 @@ import { AblySubscriptionClient } from "remult/ably"
 import { Realtime } from "ably/promises"
 import { Task } from "@/shared/Task"
 import { TasksController } from "@/shared/TaskController"
+import { useAuth } from "@clerk/nextjs"
 
 const taskRepo = remult.repo(Task)
 
 export default function TodosPage() {
+  const { userId } = useAuth()
   const [tasks, setTasks] = useState<Task[]>([])
   const [newTaskTitle, setNewTaskTitle] = useState("")
 
@@ -27,12 +29,12 @@ export default function TodosPage() {
         // where: { completed: true },
       })
       .subscribe((info) => setTasks(info.applyChanges))
-  }, [])
+  }, [userId])
 
   const addTask = async (e: FormEvent) => {
     e.preventDefault()
     try {
-      await taskRepo.insert({ title: newTaskTitle })
+      await taskRepo.insert({ title: newTaskTitle, userId: userId! })
       setNewTaskTitle("")
     } catch (error: any) {
       alert(error.message)
@@ -57,6 +59,7 @@ export default function TodosPage() {
         </form>
         {tasks.map((task) => (
           <TodoComponent
+            key={task.id}
             task={task}
             setTask={(value) =>
               setTasks((tasks) => tasks.map((t) => (t === task ? value : t)))
@@ -83,8 +86,13 @@ function TodoComponent({
   task: Task
   setTask: (t: Task) => any
 }) {
-  const setCompleted = async (completed: boolean) =>
-    await taskRepo.save({ ...task, completed })
+  const setCompleted = async (completed: boolean) => {
+    try {
+      await taskRepo.save({ ...task, completed })
+    } catch (error: any) {
+      alert(error.message)
+    }
+  }
 
   const setTitle = (title: string) => setTask({ ...task, title })
 
