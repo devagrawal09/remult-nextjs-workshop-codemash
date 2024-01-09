@@ -1,37 +1,14 @@
 [
   {
-    "id": "ewunwqmwzuydicpy8tkdhfn9",
-    "title": "Drive to Sandusky",
+    "id": "ss8rkelnhy1nqjgy94662gsw",
+    "title": "Fetch todos from the database",
     "completed": true,
-    "createdAt": "2024-01-09T21:43:51.101Z",
-    "userId": "user_2ajYFpdAovtyeWMWB1XSUFh3pWe"
+    "createdAt": "2024-01-09T22:51:28.387Z"
   },
   {
-    "id": "fphk0ro2ggo819oh0d7gf06k",
-    "title": "Jump into the pool",
-    "completed": true,
-    "createdAt": "2024-01-09T21:43:57.009Z",
-    "userId": "user_2ajYFpdAovtyeWMWB1XSUFh3pWe"
-  },
-  {
-    "id": "ibf7f8t0q8b45sll1rb0qc5o",
-    "title": "Hello from Clerk",
-    "completed": true,
-    "createdAt": "2024-01-09T21:44:27.169Z",
-    "userId": "user_2ajagSM8OS91nzqoqQYNb2AXjAG"
-  },
-  {
-    "id": "pxup56iw2txqw329rrli9qu5",
-    "title": "Hello from Clerk 2",
-    "completed": true,
-    "createdAt": "2024-01-09T21:44:29.458Z",
-    "userId": "user_2ajagSM8OS91nzqoqQYNb2AXjAG"
-  },
-  {
-    "id": "r73ndant2d3eg5habl3rne06",
-    "title": "Eat Deep Dish Pizza",
-    "completed": true,
-    "createdAt": "2024-01-09T21:45:02.639Z",
-    "userId": "user_2ajYFpdAovtyeWMWB1XSUFh3pWe"
+    "id": "jy59nueuj4swl49cfju32u4h",
+    "title": "Insert todo into the database",
+    "completed": false,
+    "createdAt": "2024-01-09T22:51:49.265Z"
   }
 ]
