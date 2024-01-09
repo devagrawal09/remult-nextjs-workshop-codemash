@@ -1,50 +1,48 @@
 "use client"
 
 import { FormEvent, useEffect, useState } from "react"
-import { remult } from "remult"
-import { AblySubscriptionClient } from "remult/ably"
-import { Realtime } from "ably/promises"
 import { Task } from "@/shared/Task"
-import { TasksController } from "@/shared/TaskController"
-import { useAuth } from "@clerk/nextjs"
-
-const taskRepo = remult.repo(Task)
 
 export default function TodosPage() {
-  const { userId } = useAuth()
   const [tasks, setTasks] = useState<Task[]>([])
   const [newTaskTitle, setNewTaskTitle] = useState("")
   const [hideCompleted, setHideCompleted] = useState(false)
 
   useEffect(() => {
-    // remult.apiClient.subscriptionClient = new AblySubscriptionClient(
-    //   new Realtime({ authUrl: "/api/getAblyToken", authMethod: "POST" })
-    // )
+    setTasks([
+      {
+        title: `Clone the repository`,
+        completed: true,
+        id: `1`
+      },
+      {
+        title: `Install dependencies`,
+        completed: true,
+        id: `2`
+      },
+      {
+        title: `Run development server`,
+        completed: true,
+        id: `3`
+      },
+      {
+        title: `Add a new task`,
+        completed: false,
+        id: `4`
+      }
+    ])
   }, [])
-
-  useEffect(() => {
-    return taskRepo
-      .liveQuery({
-        limit: 20,
-        orderBy: { createdAt: "asc" },
-        where: hideCompleted ? { completed: false } : undefined
-      })
-      .subscribe((info) => setTasks(info.applyChanges))
-  }, [hideCompleted, userId])
 
   const addTask = async (e: FormEvent) => {
     e.preventDefault()
     try {
-      await taskRepo.insert({ title: newTaskTitle, userId: userId! })
       setNewTaskTitle("")
     } catch (error: any) {
       alert(error.message)
     }
   }
 
-  const setAllCompleted = async (completed: boolean) => {
-    TasksController.setAllCompleted(completed)
-  }
+  const setAllCompleted = async (completed: boolean) => {}
 
   return (
     <div>
@@ -59,13 +57,7 @@ export default function TodosPage() {
           <button>Add</button>
         </form>
         {tasks.map((task) => (
-          <TodoComponent
-            key={task.id}
-            task={task}
-            setTask={(value) =>
-              setTasks((tasks) => tasks.map((t) => (t === task ? value : t)))
-            }
-          />
+          <TodoComponent key={task.id} task={task} />
         ))}
         <div>
           <button onClick={() => setHideCompleted((v) => !v)}>
@@ -83,18 +75,11 @@ export default function TodosPage() {
   )
 }
 
-function TodoComponent({
-  task,
-  setTask
-}: {
-  task: Task
-  setTask: (t: Task) => any
-}) {
+function TodoComponent({ task }: { task: Task }) {
   const [title, setTitle] = useState(task.title)
 
   const toggleCompleted = async () => {
     try {
-      await task.toggleCompleted()
     } catch (error: any) {
       alert(error.message)
     }
@@ -102,7 +87,6 @@ function TodoComponent({
 
   const saveTask = async () => {
     try {
-      await taskRepo.save({ ...task, title })
     } catch (error: any) {
       alert(error.message)
     }
@@ -110,7 +94,6 @@ function TodoComponent({
 
   const deleteTask = async () => {
     try {
-      await taskRepo.delete(task)
     } catch (error: any) {
       alert(error.message)
     }

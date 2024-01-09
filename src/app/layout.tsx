@@ -1,12 +1,11 @@
 import "./globals.css"
+
 import type { Metadata } from "next"
 import { Inter } from "next/font/google"
 import {
   ClerkProvider,
   MultisessionAppSupport,
-  SignInButton,
   SignedIn,
-  SignedOut,
   UserButton,
   currentUser
 } from "@clerk/nextjs"
@@ -35,9 +34,6 @@ export default async function RootLayout({
               <SignedIn>
                 <UserButton afterSignOutUrl="/" />
               </SignedIn>
-              <SignedOut>
-                <SignInButton />
-              </SignedOut>
             </header>
             {children}
           </body>
