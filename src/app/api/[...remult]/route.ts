@@ -18,13 +18,13 @@ const api = remultNextApp({
   getUser: async () => {
     const { userId } = auth()
     if (userId) return { id: userId }
-  },
+  }
 
-  dataProvider,
-  subscriptionServer: new AblySubscriptionServer(
-    new Rest(process.env["ABLY_API_KEY"]!)
-  ),
-  liveQueryStorage: new DataProviderLiveQueryStorage(dataProvider)
+  // dataProvider,
+  // subscriptionServer: new AblySubscriptionServer(
+  //   new Rest(process.env["ABLY_API_KEY"]!)
+  // ),
+  // liveQueryStorage: new DataProviderLiveQueryStorage(dataProvider)
 })
 
 export const { POST, PUT, DELETE, GET } = api

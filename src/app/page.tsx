@@ -16,9 +16,9 @@ export default function TodosPage() {
   const [newTaskTitle, setNewTaskTitle] = useState("")
 
   useEffect(() => {
-    remult.apiClient.subscriptionClient = new AblySubscriptionClient(
-      new Realtime({ authUrl: "/api/getAblyToken", authMethod: "POST" })
-    )
+    // remult.apiClient.subscriptionClient = new AblySubscriptionClient(
+    //   new Realtime({ authUrl: "/api/getAblyToken", authMethod: "POST" })
+    // )
   }, [])
 
   useEffect(() => {
@@ -86,19 +86,19 @@ function TodoComponent({
   task: Task
   setTask: (t: Task) => any
 }) {
-  const setCompleted = async (completed: boolean) => {
+  const [title, setTitle] = useState(task.title)
+
+  const toggleCompleted = async () => {
     try {
-      await taskRepo.save({ ...task, completed })
+      await task.toggleCompleted()
     } catch (error: any) {
       alert(error.message)
     }
   }
 
-  const setTitle = (title: string) => setTask({ ...task, title })
-
   const saveTask = async () => {
     try {
-      await taskRepo.save(task)
+      await taskRepo.save({ ...task, title })
     } catch (error: any) {
       alert(error.message)
     }
@@ -117,9 +117,9 @@ function TodoComponent({
       <input
         type="checkbox"
         checked={task.completed}
-        onChange={(e) => setCompleted(e.target.checked)}
+        onChange={toggleCompleted}
       />
-      <input value={task.title} onChange={(e) => setTitle(e.target.value)} />
+      <input value={title} onChange={(e) => setTitle(e.target.value)} />
       <button onClick={saveTask}>Save</button>
       <button onClick={deleteTask}>Delete</button>
     </div>

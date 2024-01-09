@@ -1,4 +1,12 @@
-import { Allow, Entity, Fields, Validators, remult } from "remult"
+import {
+  Allow,
+  BackendMethod,
+  Entity,
+  Fields,
+  IdEntity,
+  Validators,
+  remult
+} from "remult"
 
 @Entity<Task>("tasks", {
   allowApiCrud: Allow.authenticated,
@@ -7,7 +15,7 @@ import { Allow, Entity, Fields, Validators, remult } from "remult"
   allowApiDelete: (task) => task?.userId === remult.user?.id,
   apiPrefilter: () => (remult.user?.id ? { userId: remult.user.id } : {})
 })
-export class Task {
+export class Task extends IdEntity {
   @Fields.cuid()
   id = ""
 
@@ -28,4 +36,11 @@ export class Task {
     validate: Validators.required
   })
   userId = ""
+
+  @BackendMethod<Task>({ allowed: (task) => task?.userId === remult.user?.id })
+  async toggleCompleted() {
+    console.log(`toggleCompleted`)
+    this.completed = !this.completed
+    await this.save()
+  }
 }
