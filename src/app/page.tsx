@@ -2,6 +2,9 @@
 
 import { FormEvent, useEffect, useState } from "react"
 import { Task } from "@/shared/Task"
+import { remult } from "remult"
+
+const taskRepo = remult.repo(Task)
 
 export default function TodosPage() {
   const [tasks, setTasks] = useState<Task[]>([])
@@ -9,34 +12,15 @@ export default function TodosPage() {
   const [hideCompleted, setHideCompleted] = useState(false)
 
   const fetchTasks = () => {
-    setTasks([
-      {
-        title: `Clone the repository`,
-        completed: true,
-        id: `1`
-      },
-      {
-        title: `Install dependencies`,
-        completed: true,
-        id: `2`
-      },
-      {
-        title: `Run development server`,
-        completed: true,
-        id: `3`
-      },
-      {
-        title: `Add a new task`,
-        completed: false,
-        id: `4`
-      }
-    ])
+    taskRepo.find().then(setTasks)
   }
 
   const addTask = async (e: FormEvent) => {
     e.preventDefault()
     try {
+      await taskRepo.insert({ title: newTaskTitle })
       setNewTaskTitle("")
+      fetchTasks()
     } catch (error: any) {
       alert(error.message)
     }
