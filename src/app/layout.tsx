@@ -2,13 +2,6 @@ import "./globals.css"
 
 import type { Metadata } from "next"
 import { Inter } from "next/font/google"
-import {
-  ClerkProvider,
-  MultisessionAppSupport,
-  SignedIn,
-  UserButton,
-  currentUser
-} from "@clerk/nextjs"
 
 const inter = Inter({ subsets: ["latin"] })
 
@@ -22,23 +15,14 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode
 }) {
-  const user = await currentUser()
-
   return (
-    <ClerkProvider>
-      <MultisessionAppSupport>
-        <html lang="en">
-          <body className={inter.className}>
-            <header>
-              <span>Hello, {user?.firstName || `Stranger`}</span>
-              <SignedIn>
-                <UserButton afterSignOutUrl="/" />
-              </SignedIn>
-            </header>
-            {children}
-          </body>
-        </html>
-      </MultisessionAppSupport>
-    </ClerkProvider>
+    <html lang="en">
+      <body className={inter.className}>
+        <header>
+          <span>Hello, Stranger</span>
+        </header>
+        {children}
+      </body>
+    </html>
   )
 }
