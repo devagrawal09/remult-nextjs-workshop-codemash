@@ -1,1 +1,23 @@
-[]
+[
+  {
+    "id": "wh0h7bu93fqjg70hkqv7zglm",
+    "title": "Hello world",
+    "completed": false,
+    "createdAt": "2024-01-10T15:54:59.471Z",
+    "userId": "345"
+  },
+  {
+    "id": "sph5rgnxiwzttoe3gskh8v0w",
+    "title": "This works",
+    "completed": false,
+    "createdAt": "2024-01-10T15:55:02.997Z",
+    "userId": "345"
+  },
+  {
+    "id": "ih79k7s3yqhoklos6raczjev",
+    "title": "Add Auth",
+    "completed": true,
+    "createdAt": "2024-01-10T15:55:05.017Z",
+    "userId": "345"
+  }
+]
