@@ -2,13 +2,19 @@
   {
     "id": "ss8rkelnhy1nqjgy94662gsw",
     "title": "Fetch todos from the database",
-    "completed": true,
+    "completed": false,
     "createdAt": "2024-01-09T22:51:28.387Z"
   },
   {
-    "id": "jy59nueuj4swl49cfju32u4h",
-    "title": "Insert todo into the database",
+    "id": "l7j7mgxf76c34jt518aqohzp",
+    "title": "Is this realtime now?",
     "completed": true,
-    "createdAt": "2024-01-09T22:51:49.265Z"
+    "createdAt": "2024-01-10T14:33:07.552Z"
+  },
+  {
+    "id": "vye6zryq1100hy1j14m4lhys",
+    "title": "hello",
+    "completed": true,
+    "createdAt": "2024-01-10T14:41:02.603Z"
   }
 ]

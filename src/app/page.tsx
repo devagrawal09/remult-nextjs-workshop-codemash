@@ -11,14 +11,7 @@ export default function TodosPage() {
   const [newTaskTitle, setNewTaskTitle] = useState("")
   const [hideCompleted, setHideCompleted] = useState(false)
 
-  const fetchTasks = () => {
-    taskRepo
-      .find({
-        where: hideCompleted ? { completed: false } : undefined,
-        orderBy: { createdAt: "asc" }
-      })
-      .then(setTasks)
-  }
+  const fetchTasks = () => {}
 
   const addTask = async (e: FormEvent) => {
     e.preventDefault()
@@ -33,7 +26,16 @@ export default function TodosPage() {
 
   const setAllCompleted = async (completed: boolean) => {}
 
-  useEffect(() => fetchTasks(), [hideCompleted])
+  useEffect(() => {
+    const cleanup = taskRepo
+      .liveQuery({
+        where: hideCompleted ? { completed: false } : undefined,
+        orderBy: { createdAt: "asc" }
+      })
+      .subscribe((data) => setTasks(data.applyChanges))
+
+    return cleanup
+  }, [hideCompleted])
 
   return (
     <div>
@@ -77,9 +79,7 @@ function TodoComponent({
 
   const toggleCompleted = async () => {
     try {
-      task.completed = !task.completed
-      await taskRepo.save(task)
-      fetchTasks()
+      await task.toggleCompleted()
     } catch (error: any) {
       alert(error.message)
     }
