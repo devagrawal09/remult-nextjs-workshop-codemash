@@ -72,6 +72,9 @@ function TodoComponent({
 
   const toggleCompleted = async () => {
     try {
+      task.completed = !task.completed
+      await taskRepo.save(task)
+      fetchTasks()
     } catch (error: any) {
       alert(error.message)
     }
@@ -79,6 +82,9 @@ function TodoComponent({
 
   const saveTask = async () => {
     try {
+      task.title = title
+      await taskRepo.save(task)
+      fetchTasks()
     } catch (error: any) {
       alert(error.message)
     }
@@ -86,6 +92,8 @@ function TodoComponent({
 
   const deleteTask = async () => {
     try {
+      await taskRepo.delete(task)
+      fetchTasks()
     } catch (error: any) {
       alert(error.message)
     }
