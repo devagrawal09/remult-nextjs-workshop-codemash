@@ -1,4 +1,11 @@
-import { ClerkProvider, SignInButton, currentUser } from "@clerk/nextjs"
+import {
+  ClerkProvider,
+  SignInButton,
+  SignedIn,
+  SignedOut,
+  UserButton,
+  currentUser
+} from "@clerk/nextjs"
 import "./globals.css"
 
 import type { Metadata } from "next"
@@ -17,14 +24,19 @@ export default async function RootLayout({
   children: React.ReactNode
 }) {
   const user = await currentUser()
-  console.log({ user })
+
   return (
     <ClerkProvider>
       <html lang="en">
         <body className={inter.className}>
           <header>
             <span>Hello, {user?.firstName ? user.firstName : "Stranger"}</span>
-            <SignInButton />
+            <SignedIn>
+              <UserButton afterSignOutUrl="/" />
+            </SignedIn>
+            <SignedOut>
+              <SignInButton />
+            </SignedOut>
           </header>
           {children}
         </body>
