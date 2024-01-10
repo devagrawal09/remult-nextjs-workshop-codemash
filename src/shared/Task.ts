@@ -1,4 +1,5 @@
 import {
+  Allow,
   BackendMethod,
   Entity,
   Fields,
@@ -7,8 +8,14 @@ import {
   remult
 } from "remult"
 
-@Entity(`tasks`, {
-  allowApiCrud: true
+@Entity<Task>(`tasks`, {
+  allowApiCrud: Allow.authenticated,
+  allowApiDelete: (task) =>
+    !!(
+      task?.userId === remult.user?.id || remult.user?.roles?.includes(`admin`)
+    ),
+  allowApiUpdate: (task) => task?.userId === remult.user?.id,
+  allowApiInsert: (task) => task?.userId === remult.user?.id
 })
 export class Task extends IdEntity {
   @Fields.cuid()
@@ -26,6 +33,11 @@ export class Task extends IdEntity {
 
   @Fields.createdAt()
   createdAt?: Date
+
+  @Fields.string({
+    validate: Validators.required
+  })
+  userId = ""
 
   @BackendMethod({ allowed: true })
   toggleCompleted() {

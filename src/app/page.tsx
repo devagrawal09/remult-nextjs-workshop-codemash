@@ -16,7 +16,7 @@ export default function TodosPage() {
   const addTask = async (e: FormEvent) => {
     e.preventDefault()
     try {
-      await taskRepo.insert({ title: newTaskTitle })
+      await taskRepo.insert({ title: newTaskTitle, userId: `345` })
       setNewTaskTitle("")
       fetchTasks()
     } catch (error: any) {
@@ -35,7 +35,6 @@ export default function TodosPage() {
         orderBy: { createdAt: "asc" }
       })
       .subscribe((data) => {
-        console.log(data)
         setTasks(data.applyChanges)
       })
 
