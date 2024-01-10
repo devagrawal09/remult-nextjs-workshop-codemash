@@ -12,7 +12,12 @@ export default function TodosPage() {
   const [hideCompleted, setHideCompleted] = useState(false)
 
   const fetchTasks = () => {
-    taskRepo.find().then(setTasks)
+    taskRepo
+      .find({
+        where: hideCompleted ? { completed: false } : undefined,
+        orderBy: { createdAt: "asc" }
+      })
+      .then(setTasks)
   }
 
   const addTask = async (e: FormEvent) => {
@@ -28,7 +33,7 @@ export default function TodosPage() {
 
   const setAllCompleted = async (completed: boolean) => {}
 
-  useEffect(() => fetchTasks(), [])
+  useEffect(() => fetchTasks(), [hideCompleted])
 
   return (
     <div>
