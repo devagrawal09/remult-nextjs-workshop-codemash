@@ -108,7 +108,7 @@ function TodoComponent({
   }
 
   return (
-    <div key={task.id}>
+    <div>
       <input
         type="checkbox"
         checked={task.completed}
