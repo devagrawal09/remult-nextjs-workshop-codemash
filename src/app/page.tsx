@@ -1,7 +1,7 @@
 "use client"
 
 import { FormEvent, useEffect, useState } from "react"
-import { Task } from "@/shared/Task"
+import { Task, TasksController } from "@/shared/Task"
 import { remult } from "remult"
 
 const taskRepo = remult.repo(Task)
@@ -24,7 +24,9 @@ export default function TodosPage() {
     }
   }
 
-  const setAllCompleted = async (completed: boolean) => {}
+  const setAllCompleted = async (completed: boolean) => {
+    TasksController.setAllCompleted(completed)
+  }
 
   useEffect(() => {
     const cleanup = taskRepo
@@ -32,7 +34,10 @@ export default function TodosPage() {
         where: hideCompleted ? { completed: false } : undefined,
         orderBy: { createdAt: "asc" }
       })
-      .subscribe((data) => setTasks(data.applyChanges))
+      .subscribe((data) => {
+        console.log(data)
+        setTasks(data.applyChanges)
+      })
 
     return cleanup
   }, [hideCompleted])
