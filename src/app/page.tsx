@@ -3,6 +3,7 @@
 import { FormEvent, useEffect, useState } from "react"
 import { Task, TasksController } from "@/shared/Task"
 import { remult } from "remult"
+import { useAuth } from "@clerk/nextjs"
 
 const taskRepo = remult.repo(Task)
 
@@ -11,12 +12,14 @@ export default function TodosPage() {
   const [newTaskTitle, setNewTaskTitle] = useState("")
   const [hideCompleted, setHideCompleted] = useState(false)
 
+  const { userId } = useAuth()
+
   const fetchTasks = () => {}
 
   const addTask = async (e: FormEvent) => {
     e.preventDefault()
     try {
-      await taskRepo.insert({ title: newTaskTitle, userId: `345` })
+      await taskRepo.insert({ title: newTaskTitle, userId: userId! })
       setNewTaskTitle("")
       fetchTasks()
     } catch (error: any) {
@@ -39,7 +42,7 @@ export default function TodosPage() {
       })
 
     return cleanup
-  }, [hideCompleted])
+  }, [hideCompleted, userId])
 
   return (
     <div>

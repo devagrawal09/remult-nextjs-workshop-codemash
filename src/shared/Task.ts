@@ -10,12 +10,10 @@ import {
 
 @Entity<Task>(`tasks`, {
   allowApiCrud: Allow.authenticated,
-  allowApiDelete: (task) =>
-    !!(
-      task?.userId === remult.user?.id || remult.user?.roles?.includes(`admin`)
-    ),
+  allowApiDelete: (task) => task?.userId === remult.user?.id,
   allowApiUpdate: (task) => task?.userId === remult.user?.id,
-  allowApiInsert: (task) => task?.userId === remult.user?.id
+  allowApiInsert: (task) => task?.userId === remult.user?.id,
+  apiPrefilter: () => (remult.user?.id ? { userId: remult.user.id } : {})
 })
 export class Task extends IdEntity {
   @Fields.cuid()
@@ -39,7 +37,7 @@ export class Task extends IdEntity {
   })
   userId = ""
 
-  @BackendMethod({ allowed: true })
+  @BackendMethod({ allowed: (task) => task?.userId === remult.user?.id })
   toggleCompleted() {
     console.log(`toggleCompleted`)
     this.completed = !this.completed
@@ -48,11 +46,11 @@ export class Task extends IdEntity {
 }
 
 export class TasksController {
-  @BackendMethod({ allowed: true })
+  @BackendMethod({ allowed: Allow.authenticated })
   static async setAllCompleted(completed: boolean) {
     const taskRepo = remult.repo(Task)
 
-    const tasks = await taskRepo.find()
+    const tasks = await taskRepo.find({ where: { userId: remult.user!.id } })
     await Promise.all(
       tasks.map(async (task) => {
         task.completed = completed
